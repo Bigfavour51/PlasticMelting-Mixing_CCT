@@ -8,16 +8,16 @@
 
 // === Global Variables ===
 
-#define FWREL 17
-#define STPREL 16
-#define REVREL 4
-#define GASPIN 12
-#define BUZZPIN 10
+#define FWREL 13
+#define STPREL 12
+#define REVREL 10
+#define GASPIN 14
+#define BUZZPIN 11
 
-#define CSPIN 14
-#define SCKPIN 23
-#define MISOPIN 21
-#define MOSIPIN 15
+#define CSPIN 5
+#define SCKPIN 18
+#define MISOPIN 19
+#define MOSIPIN 23
 
 
 class plasticMelter {

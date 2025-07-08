@@ -1,4 +1,5 @@
 #include "MelterLib.h"
+#include "UARTMaster.h"
 
 
 
@@ -32,8 +33,8 @@ void plasticMelter::begin()
     pinMode(sckPin, OUTPUT);
     pinMode(misoPin, INPUT);
     pinMode(mosiPin, OUTPUT);
-    pinMode(rxPin, INPUT);
-    pinMode(txPin, OUTPUT);
+    // pinMode(rxPin, INPUT);
+    // pinMode(txPin, OUTPUT);
     pinMode(buzzpin, OUTPUT);
     pinMode(fwrel, OUTPUT);
     pinMode(stprel, OUTPUT);
@@ -58,27 +59,6 @@ void plasticMelter::TrigRelayOFF(int _dir)
 {
     digitalWrite(_dir, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

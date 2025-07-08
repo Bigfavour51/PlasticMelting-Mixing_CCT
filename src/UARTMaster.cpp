@@ -77,4 +77,79 @@ void uart_master_send() {
   }
 
   delay(1000);
+
+  
 }
+// This function sends data to the slave and processes the response
+// void uart_master_send() {
+//   static enum { SEND, WAIT_RESPONSE, PARSE } state = SEND;
+//   static String response = "";
+//   static unsigned long sendTime = 0;
+
+//   switch (state) {
+//     case SEND:
+//       {
+//         String payload = "#" + String(',') + String(tempValue) + "," +
+//                          String(dangerAlert) + "," + String(extraAlert) + "\n";
+
+//         Serial2.print(payload);
+//         Serial.print("Sent to slave: ");
+//         Serial.println(payload);
+
+//         response = "";
+//         sendTime = millis();
+//         state = WAIT_RESPONSE;
+//       }
+//       break;
+
+//     case WAIT_RESPONSE:
+//       while (Serial2.available()) {
+//         char c = Serial2.read();
+//         response += c;
+//       }
+
+//       if (response.endsWith("\n") || millis() - sendTime > 1000) {
+//         state = PARSE;
+//       }
+//       break;
+
+//     case PARSE:
+//       if (response.length()) {
+//         Serial.print("Received from slave: ");
+//         Serial.println(response);
+
+//         response.trim();
+//         if (response.charAt(0) == '#') response.remove(0, 1);
+//         if (response.charAt(0) == ',') response.remove(0, 1);
+
+//         char buf[64];
+//         response.toCharArray(buf, sizeof(buf));
+//         char *token = strtok(buf, ",");
+//         int idx = 0;
+//         float slaveValues[5];
+
+//         while (token && idx < 5) {
+//           slaveValues[idx++] = atof(token);
+//           token = strtok(NULL, ",");
+//         }
+
+//         if (idx == 5) {
+//           MotorSTART = slaveValues[0];
+//           MotorSTOP  = slaveValues[1];
+//           MotorRev   = slaveValues[2];
+//           GasValve   = slaveValues[3];
+//           Countdown  = slaveValues[4];
+
+//           Serial.println("Parsed values from slave:");
+//           Serial.print("MotorSTART: "); Serial.println(MotorSTART);
+//           Serial.print("MotorSTOP : "); Serial.println(MotorSTOP);
+//           Serial.print("MotorRev  : "); Serial.println(MotorRev);
+//           Serial.print("GasValve  : "); Serial.println(GasValve);
+//           Serial.print("Countdown : "); Serial.println(Countdown);
+//         }
+//       }
+//       state = SEND;  // Ready for next cycle
+//       break;
+//   }
+// }
+
