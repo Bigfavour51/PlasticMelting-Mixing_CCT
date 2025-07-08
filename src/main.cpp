@@ -1,18 +1,13 @@
 #include <Arduino.h>
+#include "UARTMaster.h"  // Include the slave header for accessing the shared variables
 
-// put function declarations here:
-int myFunction(int, int);
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+ uart_master_setup();  // Initialize UART communication
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  uart_master_send();  // Send data to the slave and receive response
+  delay(1000);          // Wait before sending the next message
 }
