@@ -4,7 +4,7 @@
 
 
 //creating a plasticMelter instance
-plasticMelter melter(CSPIN, SCKPIN, MISOPIN, MOSIPIN, RXPIN, TXPIN, BUZZPIN, FWREL, STPREL, REVREL, GASPIN);
+plasticMelter melter(CSPIN, SCKPIN, MISOPIN, MOSIPIN, RXPIN, TXPIN, BUZZPIN, FWREL, STPREL, REVREL, GASPIN, SCL, SDA);
 unsigned long motorStartTime = 0;
 bool isMotorRunning = false;
 
@@ -15,21 +15,12 @@ void setup() {
 }
 
 
-void loop() {
+void loop() 
+{
   uart_master_send();  // Should be non-blocking ideally
 
-  if (MotorSTART && !isMotorRunning) {
-    melter.TrigRelayON(FWREL);
-    Serial.println("FWREL, ON");
-    motorStartTime = millis();
-    isMotorRunning = true;
-  }
+  if (MotorSTART) { melter.startMotor();} else melter.stopMotor();
+  if (GasValve){ melter.gasValveOn(); } else melter.gasValveOff();
+  if (MotorRev){melter.reverseMotor();} else melter.stopMotor();
 
-  if (isMotorRunning && (millis() - motorStartTime >= 4000)) {
-    melter.TrigRelayOFF(FWREL);
-    Serial.println("FWREL, OFF");
-    isMotorRunning = false;
-  }
-
-//   Keep loop tight and responsive — no delay()!
 }
