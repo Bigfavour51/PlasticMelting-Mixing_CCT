@@ -6,7 +6,8 @@
 #include <MAX6675.h>
 #include "UARTMaster.h"
 #include <RTClib.h>
-// #include <SPI.h>
+#include <Wire.h>
+
 
 // === Global Variables ===
 
@@ -29,6 +30,7 @@
 #define Relay_OFF HIGH
 
 
+
 class plasticMelter {
 public:
     plasticMelter(int csPin, int sckPin, int misoPin, int mosiPin, int rxPin, int txPin, int buzzpin, int fwrel,
@@ -48,7 +50,7 @@ public:
     void buzzOff();
     bool isMelting() ;
     bool isMotorRunning();
-    int getTime();
+    
 
     void TrigRelayON(int _dir);
     void TrigRelayOFF(int _dir);
@@ -56,7 +58,7 @@ public:
     
 private:
     MAX6675* thermocouple = nullptr;
-    RTC_DS1307* rtc = nullptr;
+    // RTC_DS1307* rtc = nullptr;
     // SoftwareSerial *serial;
     int csPin;
     int sckPin;
@@ -78,6 +80,10 @@ private:
    
 };
 
+
+void setup_rtc();
+int getTime();
+extern int justHour;
 
 
 #endif 

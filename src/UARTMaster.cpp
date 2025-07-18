@@ -1,4 +1,5 @@
 #include "UARTMaster.h"
+#include "MelterLib.h"
 
 // === Global Variables ===
 float slaveValues[NUM_THRESHOLDS];
@@ -9,7 +10,7 @@ bool MotorRev = false;
 bool GasValve = false;
 float Countdown = 0.0;
 
-float tempValue = 30.0;
+float tempValue = 30;
 bool dangerAlert = false;
 bool extraAlert = false;
 

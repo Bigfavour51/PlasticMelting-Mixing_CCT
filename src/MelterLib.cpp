@@ -3,7 +3,8 @@
 #include <SPI.h>
 
 
-
+ RTC_DS3231 rtc;
+ int justHour = 0;
 
 plasticMelter::plasticMelter(int csPin, int sckPin, int misoPin, int mosiPin, int rxPin, int txPin, int buzzpin, int fwrel,
                   int stprel, int revrel, int gaspin, int scl, int sda) 
@@ -31,13 +32,14 @@ plasticMelter::~plasticMelter()
         thermocouple = nullptr;
     }
 
-    if (rtc) {
-        delete rtc;
-        rtc = nullptr;
-    }
+    // if (rtc) {
+    //     delete rtc;
+    //     rtc = nullptr;
+    // }
 }
 
-void plasticMelter::begin() {
+void plasticMelter::begin() 
+{
     pinMode(buzzpin, OUTPUT);
     pinMode(fwrel, OUTPUT);
     pinMode(stprel, OUTPUT);
@@ -49,8 +51,6 @@ void plasticMelter::begin() {
     digitalWrite(stprel, Relay_OFF);
     digitalWrite(revrel, Relay_OFF);
     digitalWrite(gaspin, Relay_OFF);
-
-    
 
 }
 
@@ -137,4 +137,28 @@ bool plasticMelter::isMelting()
     }
     else
     return melting = false;
+}
+
+void setup_rtc()
+{
+  Wire.begin();
+  if (!rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+  if (rtc.lostPower()) {
+    Serial.println("RTC lost power, setting the time!");
+    // Set the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+
+}
+
+int getTime()
+{
+  DateTime now = rtc.now();
+
+  tempValue = now.hour();
+
 }
