@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 // #include <SoftwareSerial.h>
-#include <MAX6675.h>
+// #include <MAX6675.h>
 #include "UARTMaster.h"
 #include <RTClib.h>
 #include <Wire.h>
@@ -57,7 +57,7 @@ public:
     
     
 private:
-    MAX6675* thermocouple = nullptr;
+   // MAX6675* thermocouple = nullptr;
     // RTC_DS1307* rtc = nullptr;
     // SoftwareSerial *serial;
     int csPin;

@@ -24,10 +24,6 @@ void loop()
   if (GasValve){ melter.gasValveOn(); } else melter.gasValveOff();
   if (MotorRev){melter.reverseMotor();} else melter.stopMotor();
   
-  // getTime();
+  getTime();
 
 }
-
-
-
-

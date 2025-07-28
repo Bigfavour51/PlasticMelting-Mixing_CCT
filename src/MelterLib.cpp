@@ -27,10 +27,10 @@ plasticMelter::plasticMelter(int csPin, int sckPin, int misoPin, int mosiPin, in
 
 plasticMelter::~plasticMelter() 
 {
-    if (thermocouple) {
-        delete thermocouple;
-        thermocouple = nullptr;
-    }
+    // if (thermocouple) {
+    //     delete thermocouple;
+    //     thermocouple = nullptr;
+    // }
 
     // if (rtc) {
     //     delete rtc;
@@ -57,13 +57,13 @@ void plasticMelter::begin()
 void plasticMelter::TrigRelayON(int _dir){digitalWrite(_dir, 1);}
 void plasticMelter::TrigRelayOFF(int _dir){digitalWrite(_dir, 0);}
 
-float plasticMelter::getTemperature() {
-    if(thermocouple)
-    {
-        return thermocouple->getCelsius();
-    }
-    return 0.0; 
-}
+// float plasticMelter::getTemperature() {
+//     if(thermocouple)
+//     {
+//         return thermocouple->getCelsius();
+//     }
+//     return 0.0; 
+// }
 
 void plasticMelter::setTemperature(float temperature) {
     targetTemperature = temperature;
@@ -141,7 +141,8 @@ bool plasticMelter::isMelting()
 
 void setup_rtc()
 {
-  Wire.begin();
+ Serial.begin(115200);
+  Wire.begin(21, 22);  // replace with your actual pins
   if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
     while (1);
@@ -159,6 +160,10 @@ int getTime()
 {
   DateTime now = rtc.now();
 
-  tempValue = now.hour();
+  float hourvalue = now.hour();
 
+  Serial.println(hourvalue);
+  Serial.println();
+  
+return hourvalue;
 }
