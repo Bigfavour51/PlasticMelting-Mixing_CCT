@@ -4,15 +4,10 @@
 // === Global Variables ===
 float slaveValues[NUM_THRESHOLDS];
 
-bool MotorSTART = false;
-bool MotorSTOP = false;
-bool MotorRev = false;
-bool GasValve = false;
-float Countdown = 0.0;
+ bool extractorCtrl = false;
+ bool gasValve = false;
+ bool heatCtrl = false;
 
-float tempValue = 30;
-bool dangerAlert = false;
-bool extraAlert = false;
 
 
 void uart_master_setup() {
@@ -22,11 +17,12 @@ void uart_master_setup() {
   Serial.println("MASTER READY");
 }
 
-void uart_master_send() {
+void uart_master_send(float _tempValue, float _targetTemp, bool _sysStatus) {
   // Send data to slave
-  String payload = "#" + String(',') + String(tempValue) + "," +
-                   String(dangerAlert) + "," + String(extraAlert) + "\n";
+  String payload = "#" + String(',') + String(_tempValue) + "," +
+                   String(_targetTemp) + "," + String(_sysStatus) + "\n";
 
+                   //+ String(HourValue) + String(MinuteValue)
   Serial2.print(payload);
   Serial.print("Sent to slave: ");
   Serial.println(payload);
@@ -61,19 +57,15 @@ void uart_master_send() {
       token = strtok(NULL, ",");
     }
 
-    if (idx == 5) {
-      MotorSTART = slaveValues[0];
-      MotorSTOP  = slaveValues[1];
-      MotorRev   = slaveValues[2];
-      GasValve   = slaveValues[3];
-      Countdown  = slaveValues[4];
+    if (idx == 3) {
+      extractorCtrl = slaveValues[0];
+      gasValve = slaveValues[1];
+      heatCtrl = slaveValues[2];
 
       Serial.println("Parsed values from slave:");
-      Serial.print("MotorSTART: "); Serial.println(MotorSTART);
-      Serial.print("MotorSTOP : "); Serial.println(MotorSTOP);
-      Serial.print("MotorRev  : "); Serial.println(MotorRev);
-      Serial.print("GasValve  : "); Serial.println(GasValve);
-      Serial.print("Countdown : "); Serial.println(Countdown);
+      Serial.print("Extractor Control: "); Serial.println(extractorCtrl);
+      Serial.print("Gas Valve: "); Serial.println(gasValve);
+      Serial.print("Heat Control: "); Serial.println(heatCtrl);
     }
   }
 

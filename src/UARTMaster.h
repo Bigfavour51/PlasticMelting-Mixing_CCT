@@ -2,9 +2,10 @@
 #define __UARTMaster__
 
 #include <Arduino.h>
+#include "MelterLib.h"
 
 // === Constants ===
-#define NUM_THRESHOLDS 5
+#define NUM_THRESHOLDS 3
 #define RESPONSE_BUFFER_SIZE 64
 #define MSG_HEADER '#' 
 #define MSG_TERMINATOR '\n'
@@ -18,17 +19,12 @@
 
 extern float slaveValues[NUM_THRESHOLDS];
 
-extern bool MotorSTART;
-extern bool MotorSTOP;
-extern bool MotorRev;
-extern bool GasValve;
-extern float Countdown;
+extern bool extractorCtrl;
+extern bool gasValve;
+extern bool heatCtrl;
 
-extern float tempValue;
-extern bool dangerAlert;
-extern bool extraAlert;
 
-void uart_master_send();
+void uart_master_send(float _tempValue, float _targetTemp, bool _sysStatus);
 void uart_master_setup();
 
 #endif

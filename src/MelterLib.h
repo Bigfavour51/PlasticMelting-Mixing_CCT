@@ -2,10 +2,8 @@
 #define MELTERLIB_H
 
 #include <Arduino.h>
-// #include <SoftwareSerial.h>
-// #include <MAX6675.h>
+#include <Adafruit_MAX31865.h>
 #include "UARTMaster.h"
-#include <RTClib.h>
 #include <Wire.h>
 
 
@@ -14,13 +12,18 @@
 #define FWREL 4
 #define STPREL 12
 #define REVREL 27
-#define GASPIN 15
-#define BUZZPIN 10
+#define GASPIN 12
+#define BUZZPIN 13
+#define ExtractorPIN 14
 
-#define CSPIN 5
-#define SCKPIN 18
-#define MISOPIN 19
-#define MOSIPIN 23
+// #define buzzpin 13
+// #define gaspin 12
+// #define exppin 14
+
+#define CSPIN 33
+#define SCKPIN 34
+#define MISOPIN 35
+#define MOSIPIN 36
 
 #define SCL 22
 #define SDA 21
@@ -29,7 +32,7 @@
 #define Relay_ON LOW
 #define Relay_OFF HIGH
 
-
+#define targetTemperature 100.0
 
 class plasticMelter {
 public:
@@ -39,7 +42,6 @@ public:
     ~plasticMelter();
 
     void begin();
-    void setTemperature(float temperature);
     float getTemperature();
     void startMotor();
     void stopMotor();
@@ -49,7 +51,11 @@ public:
     void buzzOn();
     void buzzOff();
     bool isMelting() ;
+    bool targetTemperatureReached();
     bool isMotorRunning();
+    void extractorOn();
+    void extractorOff();
+    void isOperationComplete();
     
 
     void TrigRelayON(int _dir);
@@ -57,9 +63,7 @@ public:
     
     
 private:
-   // MAX6675* thermocouple = nullptr;
-    // RTC_DS1307* rtc = nullptr;
-    // SoftwareSerial *serial;
+   Adafruit_MAX31865* thermocouple = nullptr;
     int csPin;
     int sckPin;
     int misoPin;
@@ -74,16 +78,26 @@ private:
     bool melting;
     int scl;
     int sda;
-    float targetTemperature;
-    void updateTemperature();
+    float currentTemperature;
     bool MotorRunning;
+
    
 };
 
+float  getTemperature();
+extern int minutevalue;
+extern int hourvalue; 
+extern float curTemperature ;
+bool targetTemperatureReached();
+extern float temperature;
+extern bool heaterstatus;
 
-void setup_rtc();
-int getTime();
-extern int justHour;
+
+
+#define MAX31865_CS   5   // Chip Select
+#define MAX31865_MOSI 23
+#define MAX31865_MISO 19
+#define MAX31865_SCK  18
 
 
 #endif 
